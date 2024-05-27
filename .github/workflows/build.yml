@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Build Java with Maven
+name: Cross-Platform Build Java with Maven
 on:
   pull_request:
     branches: main
@@ -53,7 +53,7 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven-
 
-      - name: Build On Ubuntu with Maven
+      - name: Build On ${{ matrix.os }} with Maven
         run: mvn -B package --file pom.xml
 
         
