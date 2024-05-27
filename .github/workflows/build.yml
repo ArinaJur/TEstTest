@@ -23,11 +23,11 @@ permissions:
   checks: write
     
 jobs:
-  build-on-ubuntu:
-    name: Maven cross-platform build
+  build:
+    name: Build
     
     strategy:
-      max-parallel: 2
+      max-parallel: 3
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
         
