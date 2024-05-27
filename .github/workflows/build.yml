@@ -24,8 +24,14 @@ permissions:
     
 jobs:
   build-on-ubuntu:
-    name: Maven build On Ubuntu
-    runs-on: ubuntu-latest
+    name: Maven cross-platform build
+    
+    strategy:
+      max-parallel: 2
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        
+    runs-on: ${{ matrix.os }}
     
     steps:
       - name: Git checkout
