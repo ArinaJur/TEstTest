@@ -52,6 +52,7 @@ jobs:
 
         
   check-java-code-style:
+    name: Check Java code style
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
@@ -59,5 +60,5 @@ jobs:
         with:
           fetch-depth: 0
           
-      - name: Check Java code style
+      - name: Run Java code style check
         uses: nikitasavinov/checkstyle-action@0.6.0
