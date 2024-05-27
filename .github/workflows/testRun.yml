@@ -25,22 +25,25 @@ permissions:
   checks: write
     
 jobs:
-  run-tests-on-ubuntu:
+  build-on-ubuntu:
+    name: Maven build with caching
     runs-on: ubuntu-latest
     
-    name: Maven build with caching
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Git checkout
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
-      - name: Set up JDK 17 corretto
-        uses: actions/setup-java@v3
+      - name: Install JDK 17 corretto
+      - uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'corretto'
+          cache: maven
           
       - name: Сache maven
-        uses: actions/cache@v3
+      - uses: actions/cache@v3
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -50,7 +53,7 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Run java checkstyle
-        uses: nikitasavinov/checkstyle-action@0.6.0
+      - uses: nikitasavinov/checkstyle-action@0.6.0
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
