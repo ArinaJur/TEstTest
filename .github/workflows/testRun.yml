@@ -31,32 +31,26 @@ jobs:
     name: Maven build with caching
     steps:
       - name: Checkout
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
       
       - name: Set up JDK 17 corretto
-      - uses: actions/setup-java@v3
+        uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'corretto'
           
-      - name: Restore Maven cache
-      - uses: skjolber/maven-cache-github-action@v2.0
+      - name: Сache maven
+        uses: actions/cache@v3
         with:
-          step: restore
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
 
       - name: Build On Ubuntu with Maven
         run: mvn -B package --file pom.xml
 
       - name: Run java checkstyle
-      - uses: nikitasavinov/checkstyle-action@0.6.0
-            
-      - name: Run Luma Tests on Ubuntu
-        run: mvn -e test
-    
-      - name: Save Maven cache
-      - uses: skjolber/maven-cache-github-action@v2.0
-        with:
-          step: save
+        uses: nikitasavinov/checkstyle-action@0.6.0
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
